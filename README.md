@@ -1,4 +1,4 @@
-GAFA — Reproduction Instructions (Short)
+GAFA — Reproduction Instructions
 ======================================
 
 Quick steps to reproduce experiments:
@@ -22,6 +22,17 @@ pip install -r requirements.txt
 3) Prepare data
 
 - Put datasets where the loaders expect them or add an adapter in `data_provider/`.
+
+Data sources
+
+- The datasets used for experiments were obtained from the following platforms:
+
+	- https://www.scidb.cn/ (Science Data Bank)
+	- https://www.nesdc.org.cn/ (National Earth System Data Center)
+
+- Please register or log in on each site and download datasets following the site instructions. After downloading, place raw files under a project data folder (for example `data/`) or implement an adapter in `data_provider/` to match the downloaded layout.
+
+- If the dataset requires specific preprocessing (time-zone alignment, resampling, missing-value handling), include those steps in a script under `scripts/` or within a `data_provider` adapter so that experiments are reproducible.
 
 4) Run example scripts
 
