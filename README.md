@@ -59,23 +59,8 @@ python run_foundation_carbon.py
 
 For a specific run, you can also pass arguments such as `--device` and `--seed` if the script supports them.
 
-## 4. Evaluation
 
-Common metrics:
-
-$$
-\mathrm{MAE} = \frac{1}{N} \sum_{i=1}^{N} \lvert y_i - \hat{y}_i \rvert
-$$
-
-$$
-\mathrm{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}
-$$
-
-$$
-\mathrm{MAPE} = \frac{100\%}{N} \sum_{i=1}^{N} \left|\frac{y_i - \hat{y}_i}{y_i}\right|
-$$
-
-## 5. Notes
+## 4. Notes
 
 - If you install `torch` with CUDA tags such as `+cu121`, follow the official PyTorch wheel instructions for your CUDA version.
 - Some scripts download pretrained models from the Hugging Face Model Hub at runtime, such as TimesFM, Chronos, and some `uni2ts` models.
