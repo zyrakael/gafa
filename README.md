@@ -1,92 +1,83 @@
-GAFA — Reproduction Instructions
-======================================
+# GAFA Reproduction Guide
 
-Quick steps to reproduce experiments:
+This README only lists the steps needed to reproduce the experiments.
 
-1) Create and activate a Python virtual environment
+## 1. Environment Setup
+
+Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
+```
+
+```bash
 # macOS / Linux
 source .venv/bin/activate
+```
+
+```powershell
 # Windows PowerShell
 .venv\Scripts\activate
 ```
 
-2) Install dependencies (listed below)
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3) Prepare data
+## 2. Data Preparation
 
-- Put datasets where the loaders expect them or add an adapter in `data_provider/`.
+Put the downloaded datasets in the location expected by the loader, or add an adapter in `data_provider/`.
 
-Data sources
+### Data Sources
 
-- The datasets used for experiments were obtained from the following platforms:
+The datasets used in this work were obtained from:
 
-	- https://www.scidb.cn/ (Science Data Bank)
-	- https://www.nesdc.org.cn/ (National Earth System Data Center)
+- [Science Data Bank](https://www.scidb.cn/)
+- [National Earth System Data Center](https://www.nesdc.org.cn/)
 
-- Please register or log in on each site and download datasets following the site instructions. After downloading, place raw files under a project data folder (for example `data/`) or implement an adapter in `data_provider/` to match the downloaded layout.
+Please register or log in on each site, then download the datasets according to the platform instructions. After downloading, place the raw files in a project data folder such as `data/`, or implement a dataset adapter in `data_provider/`.
 
-- If the dataset requires specific preprocessing (time-zone alignment, resampling, missing-value handling), include those steps in a script under `scripts/` or within a `data_provider` adapter so that experiments are reproducible.
+If a dataset needs extra preprocessing, keep those steps in a script under `scripts/` so the process stays reproducible.
 
-4) Run example scripts
+## 3. Run Experiments
+
+Example commands:
 
 ```bash
 python run_nee_daily.py
+```
+
+```bash
 python run_nee_daily_improved.py
+```
+
+```bash
 python run_foundation_carbon.py
 ```
 
-For GPU runs or specific experiments, pass `--device` and `--seed` or use the experiment's config file.
+For a specific run, you can also pass arguments such as `--device` and `--seed` if the script supports them.
 
-Requirements
-------------
-absl-py==2.4.0
-accelerate==1.13.0
-aiohttp==3.13.5
-aiohappyeyeballs==2.6.1
-attrs==26.1.0
-einops==0.8.2
-fsspec==2025.12.0
-gitpython==3.1.46
-gluonts==0.14.4
-hydra-core==1.3.0
-matplotlib==3.10.8
-numpy==1.26.4
-pandas==2.1.4
-Pillow==12.0.0
-protobuf==6.33.5
-pytorch-lightning==2.6.1
-scikit-learn==1.8.0
-scipy==1.17.1
-seaborn==0.13.2
-torch==2.5.1+cu121
-torchvision==0.20.1+cu121
-torchaudio==2.5.1+cu121
-torchmetrics==1.9.0
-transformers==4.57.6
-tokenizers==0.22.2
-timesfm==1.3.0
-uni2ts==2.0.0
-utilsforecast==0.2.15
-wandb==0.25.1
-omegaconf==2.3.0
-PyYAML==6.0.3
-requests==2.32.5
-tqdm==4.67.3
+## 4. Evaluation
 
-Notes
------
-- If you install `torch` with CUDA tags (`+cu121`), follow PyTorch's wheel instructions for your CUDA version.
-- If you prefer a single-file reference, `requirements.txt` contains the same list.
+Common metrics:
 
-Hugging Face model downloads
-----------------------------
-- Some scripts download pretrained models or pipelines from the Hugging Face Model Hub at runtime (examples: TimesFM via `TimesFmModelForPrediction.from_pretrained`, Chronos pipelines via `ChronosPipeline.from_pretrained`, and some `uni2ts` models). These calls will fetch model weights into your local HF cache.
-- If you need to access private models, run `huggingface-cli login` or set `HF_TOKEN`/`HUGGINGFACE_TOKEN` in your environment before running the scripts.
-- You can also point scripts to a local model directory (some scripts accept paths such as `--chronos_path`) to avoid network downloads.
+$$
+\mathrm{MAE} = \frac{1}{N} \sum_{i=1}^{N} \lvert y_i - \hat{y}_i \rvert
+$$
+
+$$
+\mathrm{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}
+$$
+
+$$
+\mathrm{MAPE} = \frac{100\%}{N} \sum_{i=1}^{N} \left|\frac{y_i - \hat{y}_i}{y_i}\right|
+$$
+
+## 5. Notes
+
+- If you install `torch` with CUDA tags such as `+cu121`, follow the official PyTorch wheel instructions for your CUDA version.
+- Some scripts download pretrained models from the Hugging Face Model Hub at runtime, such as TimesFM, Chronos, and some `uni2ts` models.
+- If you need private models, run `huggingface-cli login` or set `HF_TOKEN` / `HUGGINGFACE_TOKEN` before running the scripts.
+- You can also point a script to a local model directory if it supports a path argument such as `--chronos_path`.
