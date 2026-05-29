@@ -1,4 +1,4 @@
-GAFA — Reproduction Instructions (Short)
+GAFA — Reproduction Instructions
 ======================================
 
 Quick steps to reproduce experiments:
