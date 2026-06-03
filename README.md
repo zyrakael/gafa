@@ -10,9 +10,30 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-## 2. Data Preparation
+## 2. Experimental Environment
+
+| Component | Configuration |
+|---|---|
+| Operating system | Ubuntu 22.04 LTS |
+| CPU | Intel Xeon Platinum 8383C @ 2.70GHz |
+| Memory | 512 GB RAM |
+| GPU | 8× NVIDIA GeForce RTX 4090 (24 GB each) |
+| CUDA | CUDA 12.1 |
+
+## 3. Data Preparation
 
 Put the downloaded datasets in the location expected by the loader, or add an adapter in `data_provider/`.
+**Copyright notice:** The carbon sink data is subject to copyright. Users must obtain the data themselves. We provide download links and a processing script for reference only.
+- [Dataset 1 (SciDB)](https://www.scidb.cn/detail?dataSetId=824941006418870272&version=V1)
+- [Dataset 2 (NESDC)](https://www.nesdc.org.cn/sdo/detail?id=64e6c4f07e2817429fbc7afa)
+- [Dataset 3 (SciDB)](https://www.scidb.cn/detail?dataSetId=720626422036561920&version=V1)
+- [Dataset 4 (SciDB)](https://www.scidb.cn/detail?dataSetId=4935daa458a34c3dae22a36cb317826c&version=V1)
+- [Dataset 5 (SciDB File)](https://www.scidb.cn/file?fid=60504df8124e3600e55445d5&mode=front)
+- [Dataset 6 (SciDB)](https://www.scidb.cn/detail?dataSetId=9b649cdd9cb143cc9b3188d7a6a38a31&version=V3)
+- [Dataset 7 (NESDC)](https://www.nesdc.org.cn/sdo/detail?id=64e6c14f7e2817429fbc7af7)
+- [Dataset 8 (SciDB)](https://www.scidb.cn/detail?dataSetId=755472332243337216&version=V2)
+- [Dataset 9 (SciDB)](https://www.scidb.cn/detail?dataSetId=be0acc7ca1804710b363fab019ce8336&version=V4)
+- [Dataset 10 (SciDB)](https://www.scidb.cn/detail?dataSetId=c800dd446426478abba3b6ec24757ade&version=V1)
 
 ### Data Sources
 
@@ -25,7 +46,7 @@ Please register or log in on each site, then download the datasets according to 
 
 If a dataset needs extra preprocessing, keep those steps in a script under `scripts/` so the process stays reproducible.
 
-## 3. Run Experiments
+## 4. Run Experiments
 
 Example commands:
 
@@ -40,8 +61,6 @@ python run_nee_daily_improved.py
 ```bash
 python run_foundation_carbon.py
 ```
-
-For a specific run, you can also pass arguments such as `--device` and `--seed` if the script supports them.
 
 Key Scripts：
 | Script | Purpose |
@@ -60,8 +79,7 @@ Key Scripts：
 | `ensemble_foundation_predictions.py` | Simple ensembles over saved foundation-model prediction outputs |
 | `paired_bootstrap_ci.py` | Site-paired bootstrap confidence intervals for GAFA vs. baselines |
 
-## 4. Notes
+## 5. Notes
 
-- If you install `torch` with CUDA tags such as `+cu121`, follow the official PyTorch wheel instructions for your CUDA version.
 - Some scripts download pretrained models from the Hugging Face Model Hub at runtime, such as TimesFM, Chronos, and some `uni2ts` models.
 - If you need private models, run `huggingface-cli login` or set `HF_TOKEN` / `HUGGINGFACE_TOKEN` before running the scripts.
